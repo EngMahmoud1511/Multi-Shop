@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Multi_Shop.Data.Models;
+using Multi_Shop.Repository.Repository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -6,26 +8,34 @@ namespace Multi_Shop.App
 {
     [Route("api/[controller]")]
     [ApiController]
+   
     public class CustomerController : ControllerBase
     {
+        private IRepository<Customer> _repository;
+        public CustomerController(IRepository<Customer>repository)
+        {
+            _repository = repository;
+        }
         // GET: api/<CustomerController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult GetAll()
         {
-            return new string[] { "value1", "value2" };
+            return Ok(_repository.GetAll());    
         }
 
-        // GET api/<CustomerController>/5
+        
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult GetById(int id)
         {
-            return "value";
+            return Ok(_repository.GetById(id));
         }
 
         // POST api/<CustomerController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Add(Customer customer)
         {
+            _repository.Add(customer);
+            return Ok();
         }
 
         // PUT api/<CustomerController>/5

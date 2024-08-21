@@ -20,4 +20,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Multi Shop.Data\Multi Shop.EntityFramework.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Multi_Shop.Data.Data;
+using Multi_Shop.Repository.Repository;
 
 namespace Multi_Shop.App
 {
@@ -18,7 +19,9 @@ namespace Multi_Shop.App
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<ShopContext>(options=>options
             .UseSqlServer(builder.Configuration.GetConnectionString("Connect")));
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             var app = builder.Build();
+            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
