@@ -1,7 +1,12 @@
 
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Multi_Shop.App.Config;
 using Multi_Shop.Data.Data;
 using Multi_Shop.Repository.Repository;
+using Multi_Shop.Service.Services;
 
 namespace Multi_Shop.App
 {
@@ -19,7 +24,10 @@ namespace Multi_Shop.App
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<ShopContext>(options=>options
             .UseSqlServer(builder.Configuration.GetConnectionString("Connect")));
-            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+           
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.ConfigureContainer<ContainerBuilder>(option =>
+            option.RegisterModule(new AutofacModule()));
             var app = builder.Build();
             
 

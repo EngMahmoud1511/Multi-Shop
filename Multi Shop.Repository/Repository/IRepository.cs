@@ -9,13 +9,14 @@ using System.Threading.Tasks;
 
 namespace Multi_Shop.Repository.Repository
 {
-    public interface IRepository<T>  where T : class
+    public interface IRepository<T>  where T :BaseModel
     {
         ICollection<T> GetAll();
         T GetById(int id);
         void Add(T entity);
         void Update(T entity);
-        void Delete(int id);
+        void Delete(T entity);
+        void Save();
 
         ICollection<T> Searsh(Expression<Func<T, bool>> expression);
 

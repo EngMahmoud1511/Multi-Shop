@@ -1,4 +1,5 @@
-﻿using Multi_Shop.Data.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Multi_Shop.Data.Data;
 using Multi_Shop.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Multi_Shop.Repository.Repository
 {
-    public class Repository<T>:IRepository<T> where T :class
+    public class Repository<T>:IRepository<T> where T :BaseModel
     {
         private ShopContext _Context;
         public Repository(ShopContext context) 
@@ -23,21 +24,32 @@ namespace Multi_Shop.Repository.Repository
             _Context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(T entity)
         {
-            
+            _Context.Remove(entity);
+            _Context.SaveChanges();
         }
 
         public ICollection<T> GetAll()
         {
            return  _Context.Set<T>().ToList();
+
         }
 
         public T GetById(int id)
         {
-            return _Context.Set<T>().Find(id); 
+            var customer= _Context.Set<T>().AsNoTracking().FirstOrDefault(x=>x.Id==id);
+            _Context.Database.CloseConnection();
+
+            return customer; 
             
         }
+
+        public void Save()
+        {
+           _Context.SaveChanges();
+        }
+
         public ICollection<T> Searsh(Expression<Func<T, bool>> expression) 
         {
             return _Context.Set<T>().Where(expression).ToList();
@@ -45,8 +57,9 @@ namespace Multi_Shop.Repository.Repository
 
         public void Update(T entity)
         {
-            _Context.Set<T>().Update(entity);
-            _Context.SaveChanges();
+           _Context.Update(entity);
+           _Context.SaveChanges();
+
         }
 
 

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Multi_Shop.Data.Models
 {
-    public class Order
+    public class Order:BaseModel
     {
-        public int Id { get; set; } 
+      
         public DateTime OrderDate { get; set; }
         public DateTime? DeleverDate { get; set; }
         public string Adress { get; set; }

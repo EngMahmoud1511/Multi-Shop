@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Multi_Shop.Data.Models
 {
-    public class Category:BaseModel
+    public class BaseModel
     {
-
-       public string Name { get; set; }
-       public virtual ICollection<Item> Items { get; set; }
-
-
+        public int Id { get; set; }
     }
 }
