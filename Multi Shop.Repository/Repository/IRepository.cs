@@ -17,6 +17,8 @@ namespace Multi_Shop.Repository.Repository
         void Update(T entity);
         void Delete(T entity);
         void Save();
+        T GetWithInclude(Expression<Func<T, bool>> predicate, string [] includeProperties);
+        IEnumerable<T> GetAllWithInclude(params Expression<Func<T, object>>[] includeProperties);
 
         ICollection<T> Searsh(Expression<Func<T, bool>> expression);
 

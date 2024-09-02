@@ -21,13 +21,13 @@ namespace Multi_Shop.Repository.Repository
         public void Add(T entity)
         {
            _Context.Set<T>().Add(entity);
-            _Context.SaveChanges();
+            
         }
 
         public void Delete(T entity)
         {
             _Context.Remove(entity);
-            _Context.SaveChanges();
+           
         }
 
         public ICollection<T> GetAll()
@@ -58,11 +58,29 @@ namespace Multi_Shop.Repository.Repository
         public void Update(T entity)
         {
            _Context.Update(entity);
-           _Context.SaveChanges();
+          
 
         }
+        public T GetWithInclude(Expression<Func<T, bool>> predicate, string [] includeProperties)
+        {
+            IQueryable<T> query = _Context.Set<T>();
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+            return  query.FirstOrDefault(predicate);
+        }
 
+        public  IEnumerable<T> GetAllWithInclude(params Expression<Func<T, object>>[] includeProperties)
+        {
+            IQueryable<T> query = _Context.Set<T>();
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+            return  query.ToList();
+        }
 
-        
+       
     }
 }

@@ -2,7 +2,7 @@
 using Multi_Shop.Data.DTO;
 using Multi_Shop.Data.Models;
 using Multi_Shop.Repository.Repository;
-using Multi_Shop.Service.Services;
+using Multi_Shop.Service.Services.Srvices.Interfase;
 
 
 namespace Multi_Shop.App
@@ -12,8 +12,8 @@ namespace Multi_Shop.App
    
     public class CustomerController : ControllerBase
     {
-        private CustomerService _CustmerService;
-        public CustomerController(CustomerService service)
+        private ICustomerService _CustmerService;
+        public CustomerController(ICustomerService service)
         {
             _CustmerService = service;
         }

@@ -9,11 +9,14 @@ using System.Threading.Tasks;
 
 namespace Multi_Shop.Data.Profiles
 {
-    public class CustomerProfile:Profile
+    public class AppProfile:Profile
     {
-        public CustomerProfile()
+        public AppProfile()
         {
             CreateMap<Customer, CustomerDTO>().ReverseMap();
+            CreateMap<Item, ItemDTO>()
+            .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.Name)).ReverseMap();
+
                
         }
 

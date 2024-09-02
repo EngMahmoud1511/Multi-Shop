@@ -1,10 +1,14 @@
 
 using Autofac;
+using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Multi_Shop.App.Config;
 using Multi_Shop.Data.Data;
+using Multi_Shop.Data.Models;
 using Multi_Shop.Repository.Repository;
 using Multi_Shop.Service.Services;
 
@@ -24,7 +28,11 @@ namespace Multi_Shop.App
             builder.Services.AddSwaggerGen();
             builder.Services.AddDbContext<ShopContext>(options=>options
             .UseSqlServer(builder.Configuration.GetConnectionString("Connect")));
-           
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().
+                AddEntityFrameworkStores<ShopContext>();
+            builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             builder.Host.ConfigureContainer<ContainerBuilder>(option =>
             option.RegisterModule(new AutofacModule()));
